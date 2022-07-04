@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Page profile de Practiciens{% endblock %}
+
+{% block content %}
+  <h1>Prise de rendez-vous</h1>
+  <hr>
+  <div class="content">
+    <div class="informations">
+      {{ doctor.last_name }} {{ doctor.first_name }}
+      {{ doctor.speciality }}
+      {{ doctor.addressCabinet }}
+      {{ doctor.phone }}
+      {{ doctor.email }}
+      {{ doctor.description }}
+    </div>
+    <div class="error">
+      {% if error %}
+        {{ error }}
+      {% endif %}
+    </div>
+    <div class="success">
+      {% if success %}
+        {{ success }}
+      {% endif %}
+    </div>
+    <ul>
+      {% for slot in slots %}
+        {% if slot.is_reserved %}
+          <li class="slot-reserved">
+            {{ doctor.start_time }} {{ doctor.end_time }}
+            {{ doctor.date|date("d/m/Y") }}
+            <button>Réserver</button>
+          </li>
+        {% else %}
+          <li class="slot-available">
+            {{ doctor.start_time }} {{ doctor.end_time }}
+            {{ doctor.date|date("d/m/Y") }}
+            <button><a href="{% url 'add_appointment' slot.id %}">Réserver</a></button>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}
