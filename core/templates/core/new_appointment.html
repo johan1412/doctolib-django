@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Liste des practiciens{% endblock %}
+
+{% block content %}
+  <h1>Liste des practiciens</h1>
+  <hr>
+  <form action="{% url 'new_appointment' %}" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Rechercher">
+  </form>
+  <div class="content">
+    <ul>
+      {% for doctor in doctors %}
+        <li>
+          {{ doctor.first_name }} {{ doctor.last_name }}
+          {{ doctor.speciality }}
+          {{ doctor.addressCabinet }}
+          <button><a href="{% url 'doctor_profile' doctor.id %}">Choisir</a></button>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}
