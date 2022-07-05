@@ -18,3 +18,4 @@ class User(AbstractUser):
     age = models.IntegerField(verbose_name='Age', null=True, default=None, blank=True)
     description = models.TextField(verbose_name='Description', null=True, default=None, blank=True)
 
+
