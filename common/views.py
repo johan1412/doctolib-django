@@ -1,6 +1,6 @@
 import datetime
 from django.shortcuts import render, redirect
-from common.forms import EditDoctorForm, FilterDoctorsForm, SlotForm
+from common.forms import EditDoctorForm, EditDoctorProfileForm, FilterDoctorsForm, SlotForm
 
 from common.models import Appointment, Slot
 from register.models import User
@@ -119,3 +119,27 @@ def my_profile(request):
       return redirect('/')
     else:
       return render(request, 'common/pro_profile.html')
+
+@login_required
+def doctor_edit_profile(request):
+    if request.user.role == 'PROFESSIONAL':
+      if request.method == 'POST':
+        form = EditDoctorProfileForm(request.POST)
+        if form.is_valid():
+          doctor = User.objects.get(id=request.user.id)
+          doctor.description = form.cleaned_data['description']
+          doctor.city = form.cleaned_data['city']
+          doctor.speciality = form.cleaned_data['speciality']
+          doctor.addressCabinet = form.cleaned_data['addressCabinet']
+          doctor.save()
+          new_form = EditDoctorProfileForm()
+          return render(request, 'common/doctor_edit_profile.html', { "success" : "Votre profil a été mis à jour", "form" : new_form })
+        else:
+          new_form = EditDoctorProfileForm()
+          return render(request, 'common/doctor_edit_profile.html', { "error" : "Veuillez corriger les erreurs", "form" : new_form })
+      else:
+        form = EditDoctorProfileForm()
+        error = "Erreur, veuillez réessayer"
+        return render(request, 'common/doctor_edit_profile.html', { "form" : form , "error" : error })
+    else:
+      return redirect('/')

@@ -21,3 +21,9 @@ class SlotForm(forms.Form):
     start_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}))
     end_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}))
     date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}))
+
+class EditDoctorProfileForm(forms.Form):
+    description = forms.CharField(max_length=1000)
+    city = forms.CharField(max_length=100)
+    speciality = forms.CharField(max_length=100)
+    addressCabinet = forms.CharField(max_length=255)
