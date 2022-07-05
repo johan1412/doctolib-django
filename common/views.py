@@ -8,18 +8,22 @@ from register.models import User
 
 # Create your views here.
 
-def patient_home(request):
+def home(request):
 
     # get the next appointments for the patient
-    appointments = Appointment.objects.filter(patient=request.user)
-    # get next appointments grather than current time
-    next_appointments = appointments.filter(slot__date__gte=datetime.datetime.now())
-    next_appointments = next_appointments.order_by('slot.date')
-    # get doctors related to the patient
-    doctors = []
-    for appointment in appointments:
-        doctors.append(appointment.doctor)
-    doctors = list(dict.fromkeys(doctors))
+    if request.user.is_authenticated:
+      appointments = Appointment.objects.filter(patient=request.user)
+      # get next appointments grather than current time
+      next_appointments = appointments.filter(slot__date__gte=datetime.datetime.now())
+      next_appointments = next_appointments.order_by('slot.date')
+      # get doctors related to the patient
+      doctors = []
+      for appointment in appointments:
+          doctors.append(appointment.doctor)
+      doctors = list(dict.fromkeys(doctors))
+    else:
+      next_appointments = []
+      doctors = []
 
     return render(request, 'common/patient_home.html', { "appointments" : next_appointments, "doctors" : doctors })
 
