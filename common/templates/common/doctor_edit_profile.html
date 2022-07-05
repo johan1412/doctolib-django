@@ -1,0 +1,24 @@
+{% extends "common/base.html" %}
+
+{% block title %}Page modification du profil{% endblock %}
+
+{% block content %}
+  <h1>Modification de vos informations</h1>
+  <hr>
+  <div class="content">
+    <div class="informations">
+      <form action="{% url 'doctor_edit_profile' %}" method="POST">
+        {% csrf_token %}
+        {{ form.description.label }}
+        {{ form.description }}
+        {{ form.addressCabinet.label }}
+        {{ form.addressCabinet }}
+        {{ form.city.label }}
+        {{ form.city }}
+        {{ form.speciality.label }}
+        {{ form.speciality }}
+        <input type="submit" value="Modifier">
+      </form>
+    </div>
+  </div>
+{% endblock %}

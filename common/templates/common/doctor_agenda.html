@@ -1,0 +1,58 @@
+{% extends "common/base.html" %}
+
+{% block title %}Agenda{% endblock %}
+
+{% block content %}
+  <h1>Agenda des créneaux</h1>
+  <hr>
+  <div class="error">
+    {% if error %}
+      {{ error }}
+    {% endif %}
+  </div>
+  <div class="success">
+    {% if success %}
+      {{ success }}
+    {% endif %}
+  </div>
+  <div class="content">
+    <h5>Les créneaux</h5>
+    <p>Ajouter un nouveau créneau :</p>
+    <form action="{% url 'doctor_agenda' %}" method="post">
+      {% csrf_token %}
+      <label>Heure de début :</label>
+      {{ form.start_time }}
+      <label>Heure de fin :</label>
+      {{ form.end_time }}
+      <label>Jour :</label>
+      {{ form.date }}
+      <input type="submit" value="Ajouter">
+    </form>
+    <div class="slots-list">
+      <table class="w-100">
+        <thead>
+          <tr>
+            <th>Jour</th>
+            <th>Heure de début</th>
+            <th>Heure de fin</th>
+            <th>Etat</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for slot in slots %}
+            <tr>
+              <td>{{ slot.date|date:'d/m/Y' }}</td>
+              <td>{{ slot.start_time }}</td>
+              <td>{{ slot.end_time }}</td>
+              <td>{% if slot.is_reserved %}Réservé{% else %}Libre{% endif %}</td>
+              <td>
+                <a href="{% url 'delete_creneau' slot.id %}">Supprimer</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

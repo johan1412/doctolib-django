@@ -1,0 +1,24 @@
+{% extends "common/base.html" %}
+
+{% block title %}Page profile de Practiciens{% endblock %}
+
+{% block content %}
+  <h1>Prise de rendez-vous</h1>
+  <hr>
+  <div class="content">
+    <div class="informations">
+      <p>{{ user.last_name }} {{ user.first_name }}</p>
+      {% if user.speciality %}
+        <p>{{ user.speciality }}</p>
+      {% else %}
+        <p>Spécialité non renseignée</p>
+      {% endif %}
+      <p>{{ user.addressCabinet }}</p>
+      <p>{{ user.email }}</p>
+      <p>{{ user.description }}</p>
+    </div>
+    <button>
+      <a href="{% url 'doctor_edit_profile' %}">Modifier mes informations</a>
+    </button>
+  </div>
+{% endblock %}

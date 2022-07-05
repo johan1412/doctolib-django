@@ -1,0 +1,33 @@
+{% extends "common/base.html" %}
+
+{% block title %}Page d'accueil{% endblock %}
+
+{% block content %}
+  <h1 class="my-5">Doctolib</h1>
+  <div class="button">
+    <button><a href="{% url 'new_appointment' %}">Prendre un rendez-vous</a></button>
+  </div>
+  <div class="content row text-center">
+    <div class="left-sub-content col-md-6">
+      <h3>Mes prochains rendez-vous</h3>
+      <ul>
+        {% for appointment in appointments %}
+          <li>
+            {{ appointment.slot.date }} avec {{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="right-sub-content col-md-6">
+      <h3>Practiciens déjà consultés</h3>
+      <ul>
+        {% for doctor in doctors %}
+          <li>
+            {{ doctor.first_name }} {{ doctor.last_name }} - {{ doctor.speciality }}
+            <a href="{% url 'doctor_profile' doctor.id %}">Reprendre rendez-vous</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}
