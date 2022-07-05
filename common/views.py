@@ -14,10 +14,10 @@ def home(request):
     # get the next appointments for the patient
     if request.user.is_authenticated:
       if request.user.role == 'PATIENT':
-        appointments = Appointment.objects.filter(patient=request.user)
+        appointments = Appointment.objects.filter(patient=request.user.id)
         # get next appointments grather than current time
         next_appointments = appointments.filter(slot__date__gte=datetime.datetime.now())
-        next_appointments = next_appointments.order_by('slot.date')
+        #next_appointments = next_appointments.order_by('slot.date')
         # get doctors related to the patient
         doctors = []
         for appointment in appointments:
@@ -52,10 +52,10 @@ def new_appointment(request):
 
 def doctor_profile(request, doctor_id):
     doctor = User.objects.get(id=doctor_id)
-    profile = DoctorProfile.objects.get(doctor=doctor)
     slots = Slot.objects.filter(doctor=doctor).filter(date__gt=datetime.datetime.now()).order_by('date').order_by('start_time')
-    return render(request, 'common/doctor_profile.html', { "doctor" : doctor, "slots" : slots, 'profile' : profile })
+    return render(request, 'common/doctor_profile.html', { "doctor" : doctor, "slots" : slots })
 
+@login_required
 def add_appointment(request, slot_id):
     slot = Slot.objects.get(id=slot_id)
     if slot.is_reserved:

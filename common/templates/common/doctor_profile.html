@@ -8,14 +8,12 @@
   <div class="content">
     <div class="informations">
       <p>{{ doctor.last_name }} {{ doctor.first_name }}</p>
-      {% if profile.speciality %}
-        <p>{{ profile.speciality }}</p>
+      {% if doctor.speciality %}
+        <p>{{ doctor.speciality }}</p>
       {% else %}
         <p>Spécialité non renseignée</p>
       {% endif %}
-      <p>{{ profile.addressCabinet }}</p>
       <p>{{ doctor.email }}</p>
-      <p>{{ profile.description }}</p>
     </div>
     <div class="error">
       {% if error %}
