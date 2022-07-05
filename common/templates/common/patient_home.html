@@ -1,0 +1,33 @@
+{% extends "common/base.html" %}
+
+{% block title %}Page d'accueil{% endblock %}
+
+{% block content %}
+  <h1>Page d'accueil</h1>
+  <div class="button">
+    <button><a href="{% url 'new_appointment' %}">Prendre un rendez-vous</a></button>
+  </div>
+  <div class="content">
+    <div class="left-sub-content">
+      <h3>Mes prochains rendez-vous</h3>
+      <ul>
+        {% for appointment in next_appointments %}
+          <li>
+            {{ appointment.date|date:'d/m/Y' }} à {{ appointment.date|date:'H:i' }} avec {{ appointment.doctor.firstname }} {{ appointment.doctor.lastname }}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="right-sub-content">
+      <h3>Practiciens déjà consultés</h3>
+      <ul>
+        {% for doctor in doctors %}
+          <li>
+            {{ doctor.firstname }} {{ doctor.lastname }} - {{ doctor.speciality }}
+            <a href="{% url 'doctor' doctor.id %}">Reprendre rendez-vous</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}
