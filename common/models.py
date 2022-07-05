@@ -20,3 +20,14 @@ class Appointment(models.Model):
 
     def __str__(self):
         return self.doctor.username + " " + self.patient.username + " " + str(self.slot.date) + " " + str(self.slot.start_time) + " " + str(self.slot.end_time)
+
+
+class DoctorProfile(models.Model):
+    doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctorProfile')
+    description = models.CharField(max_length=1000)
+    city = models.CharField(max_length=100)
+    speciality = models.CharField(max_length=100)
+    addressCabinet = models.CharField(max_length=255, verbose_name='Adresse du cabinet', null=True, default=None, blank=True)
+
+    def __str__(self):
+        return self.doctor.username + " " + self.description

@@ -25,6 +25,7 @@
     </div>
     <h5>Texte de présentation</h5>
     <form action="{% url 'doctor_edit' %}" method="post">
+      {% csrf_token %}
       <textarea name="description" rows="10" cols="80">{{ doctor.description }}</textarea>
       <input type="submit" value="Modifier">
     </form>

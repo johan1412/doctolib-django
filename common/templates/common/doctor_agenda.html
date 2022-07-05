@@ -47,7 +47,7 @@
               <td>{{ slot.end_time }}</td>
               <td>{% if slot.is_reserved %}Réservé{% else %}Libre{% endif %}</td>
               <td>
-                <a href="{% url 'delete_creneau' creneau.id %}">Supprimer</a>
+                <a href="{% url 'delete_creneau' slot.id %}">Supprimer</a>
               </td>
             </tr>
           {% endfor %}

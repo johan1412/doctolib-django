@@ -1,0 +1,12 @@
+{% extends "common/base.html" %}
+
+{% block title %}Page d'accueil{% endblock %}
+
+{% block content %}
+  <h1>Page d'accueil</h1>
+  <hr>
+  <div class="content">
+    <p><a href="{% url 'my_profile' %}">Mon profil</a></p>
+    <p><a href="{% url 'doctor_agenda' %}">Mon agenda</a></p>
+  </div>
+{% endblock %}
