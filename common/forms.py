@@ -15,7 +15,7 @@ class FilterDoctorsForm(forms.Form):
     speciality = forms.ChoiceField(choices=zip(all_specialities, all_specialities))
 
 class EditDoctorForm(forms.Form):
-    description = forms.TextField()
+    description = forms.CharField(max_length=1000, required=True)
 
 class SlotForm(forms.Form):
     start_time = forms.TimeField()
