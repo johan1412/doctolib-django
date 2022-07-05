@@ -1,0 +1,32 @@
+{% extends "common/base.html" %}
+
+{% block title %}Page profile{% endblock %}
+
+{% block content %}
+  <h1>Profile personnel</h1>
+  <hr>
+  <div class="error">
+    {% if error %}
+      {{ error }}
+    {% endif %}
+  </div>
+  <div class="success">
+    {% if success %}
+      {{ success }}
+    {% endif %}
+  </div>
+  <div class="content">
+    <h5>Informations personnelles</h5>
+    <div class="informations">
+      {{ doctor.last_name }} {{ doctor.first_name }}
+      {{ doctor.speciality }}
+      {{ doctor.addressCabinet }}
+      {{ doctor.email }}
+    </div>
+    <h5>Texte de présentation</h5>
+    <form action="{% url 'doctor_edit' %}" method="post">
+      <textarea name="description" rows="10" cols="80">{{ doctor.description }}</textarea>
+      <input type="submit" value="Modifier">
+    </form>
+  </div>
+{% endblock %}

@@ -13,3 +13,11 @@ class FilterDoctorsForm(forms.Form):
         
     city = forms.ChoiceField(choices=zip(all_cities, all_cities))
     speciality = forms.ChoiceField(choices=zip(all_specialities, all_specialities))
+
+class EditDoctorForm(forms.Form):
+    description = forms.CharField(max_length=1000, required=True)
+
+class SlotForm(forms.Form):
+    start_time = forms.TimeField()
+    end_time = forms.TimeField()
+    date = forms.DateField()
