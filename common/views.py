@@ -2,7 +2,7 @@ import datetime
 from django.shortcuts import render, redirect
 from common.forms import EditDoctorForm, EditDoctorProfileForm, FilterDoctorsForm, SlotForm
 
-from common.models import Appointment, Slot
+from common.models import Appointment, DoctorProfile, Slot
 from register.models import User
 from django.contrib.auth.decorators import login_required
 
@@ -42,18 +42,19 @@ def new_appointment(request):
         return render(request, 'common/new_appointment.html', { "form" : new_form, "doctors" : doctors })
       else:
         form = FilterDoctorsForm()
-        doctors = User.objects.filter(role='Pro')
+        doctors = User.objects.filter(role='PROFESSIONAL')
         return render(request, 'common/new_appointment.html', { "form" : form , "doctors" : doctors })
     else:
       form = FilterDoctorsForm()
-      doctors = User.objects.filter(role='Pro')
+      doctors = User.objects.filter(role='PROFESSIONAL')
 
       return render(request, 'common/new_appointment.html', { "form" : form, "doctors" : doctors })
 
 def doctor_profile(request, doctor_id):
     doctor = User.objects.get(id=doctor_id)
+    profile = DoctorProfile.objects.get(doctor=doctor)
     slots = Slot.objects.filter(doctor=doctor).filter(date__gt=datetime.datetime.now()).order_by('date').order_by('start_time')
-    return render(request, 'common/doctor_profile.html', { "doctor" : doctor, "slots" : slots })
+    return render(request, 'common/doctor_profile.html', { "doctor" : doctor, "slots" : slots, 'profile' : profile })
 
 def add_appointment(request, slot_id):
     slot = Slot.objects.get(id=slot_id)
@@ -126,12 +127,12 @@ def doctor_edit_profile(request):
       if request.method == 'POST':
         form = EditDoctorProfileForm(request.POST)
         if form.is_valid():
-          doctor = User.objects.get(id=request.user.id)
-          doctor.description = form.cleaned_data['description']
-          doctor.city = form.cleaned_data['city']
-          doctor.speciality = form.cleaned_data['speciality']
-          doctor.addressCabinet = form.cleaned_data['addressCabinet']
-          doctor.save()
+          profile = DoctorProfile.objects.get(doctor=request.user.id)
+          profile.description = form.cleaned_data['description']
+          profile.city = form.cleaned_data['city']
+          profile.speciality = form.cleaned_data['speciality']
+          profile.addressCabinet = form.cleaned_data['addressCabinet']
+          profile.save()
           new_form = EditDoctorProfileForm()
           return render(request, 'common/doctor_edit_profile.html', { "success" : "Votre profil a été mis à jour", "form" : new_form })
         else:

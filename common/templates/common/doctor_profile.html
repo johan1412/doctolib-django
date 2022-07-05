@@ -8,14 +8,14 @@
   <div class="content">
     <div class="informations">
       <p>{{ doctor.last_name }} {{ doctor.first_name }}</p>
-      {% if doctor.speciality %}
-        <p>{{ doctor.speciality }}</p>
+      {% if profile.speciality %}
+        <p>{{ profile.speciality }}</p>
       {% else %}
         <p>Spécialité non renseignée</p>
       {% endif %}
-      <p>{{ doctor.addressCabinet }}</p>
+      <p>{{ profile.addressCabinet }}</p>
       <p>{{ doctor.email }}</p>
-      <p>{{ doctor.description }}</p>
+      <p>{{ profile.description }}</p>
     </div>
     <div class="error">
       {% if error %}
@@ -31,14 +31,14 @@
       {% for slot in slots %}
         {% if slot.is_reserved %}
           <li class="slot-reserved">
-            {{ doctor.start_time }} {{ doctor.end_time }}
-            {{ doctor.date|date:"d/m/Y" }}
+            {{ slot.start_time }} {{ slot.end_time }}
+            {{ slot.date|date:"d/m/Y" }}
             <button>Réserver</button>
           </li>
         {% else %}
           <li class="slot-available">
-            {{ doctor.start_time }} {{ doctor.end_time }}
-            {{ doctor.date|date:"d/m/Y" }}
+            {{ slot.start_time }} {{ slot.end_time }}
+            {{ slot.date|date:"d/m/Y" }}
             <button><a href="{% url 'add_appointment' slot.id %}">Réserver</a></button>
           </li>
         {% endif %}
